@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>给你的告白</title>
+<style>
+body{
+    margin:0;
+    overflow:hidden;
+    font-family:"微软雅黑";
+    text-align:center;
+    background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);
+    background-size:400% 400%;
+    animation:bg 10s infinite;
+    color:white;
+}
+
+@keyframes bg{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
+
+.container{
+    position:absolute;
+    top:35%;
+    width:100%;
+    padding:20px;
+}
+
+h1{
+    font-size:28px;
+    line-height:40px;
+}
+
+button{
+    margin-top:25px;
+    padding:12px 25px;
+    font-size:18px;
+    border:none;
+    border-radius:25px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+#yes{
+    background:#ff4d6d;
+    color:white;
+}
+
+#yes:active{
+    transform:scale(1.2);
+}
+
+#no{
+    background:white;
+    color:#ff4d6d;
+    position:absolute;
+}
+
+/* 爱心点击效果 */
+.heart{
+    position:fixed;
+    font-size:20px;
+    animation:floatUp 1s forwards;
+}
+@keyframes floatUp{
+    to{
+        transform:translateY(-80px);
+        opacity:0;
+    }
+}
+
+.bigLove{
+    position:fixed;
+    top:40%;
+    width:100%;
+    font-size:35px;
+    animation:zoom 1.5s forwards;
+}
+@keyframes zoom{
+    from{transform:scale(0);opacity:0;}
+    to{transform:scale(1);opacity:1;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>❤️ 我喜欢你很久了<br>你愿意和我在一起吗？</h1>
+    <button id="yes">愿意 💍</button>
+    <button id="no">再想想 🙈</button>
+</div>
+
+<script>
+// 手指点击冒爱心
+document.addEventListener("touchstart",function(e){
+    const heart=document.createElement("div");
+    heart.className="heart";
+    heart.innerHTML="💖";
+    heart.style.left=e.touches[0].clientX+"px";
+    heart.style.top=e.touches[0].clientY+"px";
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),1000);
+});
+
+// 拒绝按钮乱跑（手机触摸）
+const no=document.getElementById("no");
+no.addEventListener("touchstart",function(){
+    no.style.left=Math.random()*70+"vw";
+    no.style.top=Math.random()*70+"vh";
+});
+
+// 点击愿意
+document.getElementById("yes").onclick=function(){
+    document.body.innerHTML += '<div class="bigLove">❤️ 我们在一起啦 ❤️</div>';
+
+    for(let i=0;i<80;i++){
+        const f=document.createElement("div");
+        f.style.position="fixed";
+        f.style.left="50vw";
+        f.style.top="50vh";
+        f.style.width="4px";
+        f.style.height="4px";
+        f.style.borderRadius="50%";
+        f.style.background=`hsl(${Math.random()*360},100%,70%)`;
+        f.style.transition="1s";
+        document.body.appendChild(f);
+
+        setTimeout(()=>{
+            f.style.transform=`translate(${(Math.random()-0.5)*600}px,${(Math.random()-0.5)*600}px)`;
+            f.style.opacity=0;
+        },10);
+
+        setTimeout(()=>f.remove(),1000);
+    }
+}
+</script>
+
+</body>
+</html>
