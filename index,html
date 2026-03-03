@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>给她的告白</title>
+<style>
+body{
+    margin:0;
+    overflow:hidden;
+    background: radial-gradient(circle at center, #1a1a2e, #0f0f1a);
+    font-family:"微软雅黑";
+    text-align:center;
+    color:white;
+}
+
+/* 星空闪烁 */
+.star{
+    position:absolute;
+    width:2px;
+    height:2px;
+    background:white;
+    border-radius:50%;
+    animation: twinkle 2s infinite alternate;
+}
+@keyframes twinkle{
+    from{opacity:0.2;}
+    to{opacity:1;}
+}
+
+h1{
+    margin-top:18%;
+    font-size:50px;
+    text-shadow:0 0 20px #ff6ec7;
+}
+
+.buttons{
+    margin-top:40px;
+}
+
+button{
+    padding:15px 35px;
+    font-size:22px;
+    border:none;
+    border-radius:30px;
+    cursor:pointer;
+    margin:20px;
+    transition:.3s;
+}
+
+#yes{
+    background:#ff4d6d;
+    color:white;
+}
+#yes:hover{
+    transform:scale(1.2);
+}
+
+#no{
+    background:white;
+    color:#ff4d6d;
+    position:absolute;
+}
+
+.bigLove{
+    position:fixed;
+    top:40%;
+    width:100%;
+    font-size:70px;
+    animation:zoom 2s forwards;
+}
+@keyframes zoom{
+    from{transform:scale(0);opacity:0;}
+    to{transform:scale(1);opacity:1;}
+}
+</style>
+</head>
+
+<body>
+
+<h1>她的名字 ❤️<br>你愿意和 你的名字 在一起吗？</h1>
+
+<div class="buttons">
+    <button id="yes">愿意 💍</button>
+    <button id="no">再想想 🙈</button>
+</div>
+
+<script>
+// 生成星空
+for(let i=0;i<150;i++){
+    const s=document.createElement("div");
+    s.className="star";
+    s.style.left=Math.random()*100+"vw";
+    s.style.top=Math.random()*100+"vh";
+    s.style.animationDuration=(1+Math.random()*2)+"s";
+    document.body.appendChild(s);
+}
+
+// 拒绝按钮逃跑
+const no=document.getElementById("no");
+no.onmouseover=function(){
+    no.style.left=Math.random()*80+"vw";
+    no.style.top=Math.random()*80+"vh";
+}
+
+// 点击愿意
+document.getElementById("yes").onclick=function(){
+    document.body.innerHTML += '<div class="bigLove">❤️ 我们正式在一起啦 ❤️</div>';
+
+    for(let i=0;i<100;i++){
+        const f=document.createElement("div");
+        f.style.position="fixed";
+        f.style.left="50vw";
+        f.style.top="50vh";
+        f.style.width="5px";
+        f.style.height="5px";
+        f.style.borderRadius="50%";
+        f.style.background=`hsl(${Math.random()*360},100%,70%)`;
+        f.style.transition="1s";
+        document.body.appendChild(f);
+
+        setTimeout(()=>{
+            f.style.transform=`translate(${(Math.random()-0.5)*1000}px,${(Math.random()-0.5)*1000}px)`;
+            f.style.opacity=0;
+        },10);
+
+        setTimeout(()=>f.remove(),1000);
+    }
+}
+</script>
+
+</body>
+</html>
