@@ -187,6 +187,13 @@ document.getElementById("forever").addEventListener("click",function(){
         setTimeout(()=>heart.remove(),1500);
     }
 });
+// 解决手机自动播放限制
+document.body.addEventListener("touchstart", function () {
+    const bgm = document.getElementById("bgm");
+    if (bgm.paused) {
+        bgm.play();
+    }
+}, { once: true });
 </script>
 
 </body>
