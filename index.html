@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>韩晗 ❤️ 我们</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+
+body{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:black;
+    overflow:hidden;
+    color:white;
+}
+
+/* 星空 */
+canvas{
+    position:fixed;
+    top:0;
+    left:0;
+}
+
+/* 卡片 */
+.card{
+    position:relative;
+    width:88%;
+    max-width:400px;
+    padding:40px 25px;
+    border-radius:22px;
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(25px);
+    border:1px solid rgba(255,255,255,0.2);
+    text-align:center;
+    box-shadow:0 0 40px rgba(0,0,0,0.7);
+    z-index:2;
+}
+
+h1{
+    font-size:20px;
+    line-height:1.7;
+}
+
+.days{
+    margin:20px 0;
+    font-size:20px;
+    color:#ff9a9e;
+}
+
+button{
+    padding:12px 28px;
+    border:none;
+    border-radius:30px;
+    font-size:16px;
+    cursor:pointer;
+    background:#ff4d6d;
+    color:white;
+    box-shadow:0 0 20px #ff4d6d;
+    transition:.3s;
+}
+
+button:active{
+    transform:scale(1.15);
+}
+
+/* 成功文字 */
+.success{
+    position:absolute;
+    font-size:26px;
+    text-align:center;
+    animation:pop 1.5s forwards;
+}
+
+@keyframes pop{
+    from{transform:scale(0);opacity:0;}
+    to{transform:scale(1);opacity:1;}
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="stars"></canvas>
+
+<div class="card">
+    <h1>
+        韩晗 ❤️<br><br>
+        从 2024.10.01 开始，<br>
+        我们已经在一起
+    </h1>
+
+    <div class="days" id="daysCount">
+        计算中...
+    </div>
+
+    <h1>
+        未来的每一天，<br>
+        我都想和你继续走下去。
+    </h1>
+
+    <br><br>
+    <button id="forever">一直在一起 💍</button>
+</div>
+
+<!-- 专属歌 -->
+<audio id="bgm" autoplay loop>
+    <source src="womenlia.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+// ====== 纪念日计算 ======
+function calculateDays(){
+    const startDate = new Date("2024-10-01 00:00:00");
+    const now = new Date();
+    const diff = now - startDate;
+
+    const days = Math.floor(diff / (1000*60*60*24));
+    const hours = Math.floor(diff / (1000*60*60)) % 24;
+
+    document.getElementById("daysCount").innerHTML =
+        "<strong style='font-size:26px'>" +
+        days + " 天 " + hours + " 小时 💖</strong>";
+}
+calculateDays();
+setInterval(calculateDays,60000);
+
+// ====== 星空背景 ======
+const canvas=document.getElementById("stars");
+const ctx=canvas.getContext("2d");
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+let stars=[];
+for(let i=0;i<150;i++){
+    stars.push({
+        x:Math.random()*canvas.width,
+        y:Math.random()*canvas.height,
+        r:Math.random()*1.5,
+        d:Math.random()*0.5
+    });
+}
+
+function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle="white";
+    stars.forEach(s=>{
+        ctx.beginPath();
+        ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+        ctx.fill();
+        s.y+=s.d;
+        if(s.y>canvas.height){s.y=0;}
+    });
+}
+setInterval(draw,30);
+
+// ====== 点击爆爱心 ======
+document.getElementById("forever").addEventListener("click",function(){
+    const msg=document.createElement("div");
+    msg.className="success";
+    msg.innerHTML="❤️ 韩晗<br>谢谢你陪我走到现在 ❤️";
+    document.body.appendChild(msg);
+
+    for(let i=0;i<150;i++){
+        const heart=document.createElement("div");
+        heart.innerHTML="💖";
+        heart.style.position="fixed";
+        heart.style.left="50vw";
+        heart.style.top="50vh";
+        heart.style.fontSize="20px";
+        heart.style.transition="1.5s";
+        document.body.appendChild(heart);
+
+        setTimeout(()=>{
+            heart.style.transform=`translate(${(Math.random()-0.5)*1000}px,${(Math.random()-0.5)*1000}px)`;
+            heart.style.opacity=0;
+        },10);
+
+        setTimeout(()=>heart.remove(),1500);
+    }
+});
+</script>
+
+</body>
+</html>
